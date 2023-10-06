@@ -1,0 +1,29 @@
+package com.example.navigation_between_activitys
+
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.telephony.TelephonyManager
+import android.widget.Toast
+
+class CallReceiver(
+    private var callback: (String) -> Unit
+) :BroadcastReceiver(){
+    override fun onReceive(context: Context, intent: Intent) {
+        try {
+
+            val state =intent.getStringExtra(TelephonyManager.EXTRA_STATE)
+            if (state == TelephonyManager.EXTRA_STATE_RINGING){
+            callback( "Phone is Ringing")
+            }
+            if(state == TelephonyManager.EXTRA_STATE_OFFHOOK){
+                callback( "Call recevied")
+            }
+            if (state == TelephonyManager.EXTRA_STATE_IDLE){
+                callback( "Phone is idle")
+            }
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+    }
+}
